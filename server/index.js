@@ -1,6 +1,10 @@
+require("dotenv").config();
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+
+// database connection
+import ConnectDB from "./database/connection";
 
 const zomato = express();
 
@@ -13,4 +17,10 @@ zomato.get("/" , (req,res) =>{
     res.json({message:"setup express"})
 });
 
-zomato.listen(4000, () => console.log("server started"));
+zomato.listen(4000, () => 
+    ConnectDB()
+    .then(()=>console.log("server is running"))
+    .catch(()=>
+            console.log("server is running but database conection is failed")
+        )
+    );
