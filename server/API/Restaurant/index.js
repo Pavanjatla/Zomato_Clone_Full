@@ -1,6 +1,6 @@
 //libraries
 
-import express, { Router } from "express";
+import express  from "express";
  //database model
 
 import {RestaurantModel} from "../../database/allModels";
