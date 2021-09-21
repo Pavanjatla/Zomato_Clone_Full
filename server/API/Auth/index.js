@@ -6,6 +6,10 @@ import passport from "passport";
 // Models
 import { UserModel } from "../../database/allModels";
 
+//validation
+
+import  {ValidateSignup,ValidateSignin} from "../../validation/auth";
+
 const Router = express.Router();
 
 /*
@@ -17,7 +21,8 @@ Method          POST
 */
 Router.post("/signup", async (req, res) => {
     try {
-        const { email, password, fullName, phoneNumber } = req.body.credentials;
+        await ValidateSignup(req.body.credentials);
+        //const { email, password, fullName, phoneNumber } = req.body.credentials;
 
         await UserModel.findByEmailAndPhone(req.body.credentials);
 
@@ -42,6 +47,7 @@ Method          POST
 */
 Router.post("/signin", async (req,res) =>{
     try{
+        await ValidateSignin(req.body.credentials);
         const user = await UserModel.findByEmailAndPassword(req.body.credentials);
         const token = user.generateJwtToken();
         return res.status(200).json({token, status :"success"});
@@ -53,7 +59,7 @@ Router.post("/signin", async (req,res) =>{
 
 /*
 Route           /auth/google
-Desc            signing in email and password
+Desc            route for google authentication
 Params          none
 Access          Public
 Method          POST
@@ -68,7 +74,7 @@ Router.get("/google",passport.authenticate("google",{
 
 /*
 Route           /auth/google
-Desc            signing in email and password
+Desc            route for google call back
 Params          none
 Access          Public
 Method          POST
