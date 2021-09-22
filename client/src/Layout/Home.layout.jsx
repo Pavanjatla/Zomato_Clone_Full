@@ -1,4 +1,5 @@
-import React, { Children } from 'react'
+import React from 'react'
+import FoodTab from '../Components/FoodTabs';
 import Navbar from '../Components/Navbar';
 
 function Homelayout({children}) {
@@ -6,10 +7,12 @@ function Homelayout({children}) {
         <div>
             <Navbar />
 
+            <FoodTab />
+
             <div className="container mx-auto px-4 lg:px-20">{children}</div>
             
         </div>
     );
 }
 
-export default Homelayout
+export default Homelayout;
