@@ -1,6 +1,11 @@
 import HomeLayoutHOC from "./HOC/Home.HOC";
 import Homelayout from "./Layout/Home.layout";
-import Temp from "./Components/temp";
+
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Temp from "./Components/Temp";
+
 
 function App() {
   return (
