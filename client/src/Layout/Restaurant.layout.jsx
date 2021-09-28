@@ -2,6 +2,11 @@ import React, { useState } from 'react'
 import RestaurantNavbar from '../Components/Navbar/RestaurantNavbar';
 import ImageGrid from '../Components/Restaurant/ImageGrid';
 import RestaurantInfo from '../Components/Restaurant/RestaurantInfo';
+import InfoButtons from '../Components/Restaurant/InfoButtons';
+import { TiStarOutline } from 'react-icons/ti';
+import { RiDirectionLine, RiShareForwardLine } from 'react-icons/ri';
+import {BiBookmarkPlus} from "react-icons/bi";
+import Tabs from '../Components/Restaurant/Tabs';
 
 
 
@@ -34,7 +39,32 @@ function RestaurantLayout({children}) {
             cuisine={restaurant?.cuisine} 
             address={restaurant?.address} />
 
+            <div className="my-4 flex flex-wrap gap-3">
+                    <InfoButtons  isActive >
+                        <TiStarOutline /> Add Review
+                    </InfoButtons>
+
+                    <InfoButtons>
+                        <RiDirectionLine /> Direction
+                    </InfoButtons>
+
+                    <InfoButtons>
+                        <BiBookmarkPlus /> BookMark
+                    </InfoButtons>
+
+                    <InfoButtons>
+                        <RiShareForwardLine /> Share
+            
+                    </InfoButtons>
+
+                </div>
+                <div className="my-10">
+                    <Tabs />
+
+                </div>
+
        </div>
+       
       
         {children}
        

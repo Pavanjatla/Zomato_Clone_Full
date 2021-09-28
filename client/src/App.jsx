@@ -18,6 +18,11 @@ function App() {
       </Route>
       <HomeLayoutHOC path="/:type" exact component={Home} />
       <RestaurantHOC path="/restaurant/:id" exact component={Temp} />
+      <RestaurantHOC path="/restaurant/:id/overview" exact component={Temp} />
+      <RestaurantHOC path="/restaurant/:id/order-online" exact component={Temp} />
+      <RestaurantHOC path="/restaurant/:id/menu" exact component={Temp} />
+      <RestaurantHOC path="/restaurant/:id/photos" exact component={Temp} />
+      <RestaurantHOC path="/restaurant/:id/reviews" exact component={Temp} />
     </div>
   );
 }
