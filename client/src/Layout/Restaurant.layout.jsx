@@ -62,11 +62,12 @@ function RestaurantLayout({children}) {
                     <Tabs />
 
                 </div>
+                {children}
 
        </div>
        
       
-        {children}
+        
        
        </>
     )

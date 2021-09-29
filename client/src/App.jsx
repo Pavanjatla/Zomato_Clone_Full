@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import RestaurantLayout from "./Layout/Restaurant.layout";
 import RestaurantHOC from "./HOC/Restaurant.HOC";
 import Temp from "./Components/Temp";
+import Overview from "./pages/Overview";
+
 
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
       </Route>
       <HomeLayoutHOC path="/:type" exact component={Home} />
       <RestaurantHOC path="/restaurant/:id" exact component={Temp} />
-      <RestaurantHOC path="/restaurant/:id/overview" exact component={Temp} />
+      <RestaurantHOC path="/restaurant/:id/overview" exact component={Overview} />
       <RestaurantHOC path="/restaurant/:id/order-online" exact component={Temp} />
       <RestaurantHOC path="/restaurant/:id/menu" exact component={Temp} />
       <RestaurantHOC path="/restaurant/:id/photos" exact component={Temp} />
