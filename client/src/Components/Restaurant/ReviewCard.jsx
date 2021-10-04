@@ -10,7 +10,7 @@ function ReviewCard(props) {
                 <div className="flex items-center gap-2">
                 <div className="w-10 h-10 rounded-full">
                     <img
-                    src="https://b.zmtcdn.com/data/user_profile_pictures/d76/cc84183f68cc34027812bdf62585cd76.jpg"
+                    src={props.image}
                     alt="avatar"
                     className="w-full h-full rounded-full object-center"
                     />

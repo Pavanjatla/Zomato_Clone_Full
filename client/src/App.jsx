@@ -9,6 +9,11 @@ import RestaurantLayout from "./Layout/Restaurant.layout";
 import RestaurantHOC from "./HOC/Restaurant.HOC";
 import Temp from "./Components/Temp";
 import Overview from "./pages/Overview";
+import OrderOnline from "./pages/OrderOnline";
+import Reviews from "./pages/Reviews";
+import Menu from "./pages/Menu";
+import Photos from "./pages/Photos";
+
 
 
 
@@ -21,10 +26,10 @@ function App() {
       <HomeLayoutHOC path="/:type" exact component={Home} />
       <RestaurantHOC path="/restaurant/:id" exact component={Temp} />
       <RestaurantHOC path="/restaurant/:id/overview" exact component={Overview} />
-      <RestaurantHOC path="/restaurant/:id/order-online" exact component={Temp} />
-      <RestaurantHOC path="/restaurant/:id/menu" exact component={Temp} />
-      <RestaurantHOC path="/restaurant/:id/photos" exact component={Temp} />
-      <RestaurantHOC path="/restaurant/:id/reviews" exact component={Temp} />
+      <RestaurantHOC path="/restaurant/:id/order-online" exact component={OrderOnline} />
+      <RestaurantHOC path="/restaurant/:id/menu" exact component={Menu} />
+      <RestaurantHOC path="/restaurant/:id/photos" exact component={Photos} />
+      <RestaurantHOC path="/restaurant/:id/reviews" exact component={Reviews} />
     </div>
   );
 }

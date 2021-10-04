@@ -7,6 +7,7 @@ import {NextArrow,PrevArrow} from "../Components/CarouselArrows";
 import MenuCollection from '../Components/Restaurant/MenuCollection';
 import MenuSimilarRestaurantCard from '../Components/Restaurant/MenuSimilarRestaurantCard';
 import ReviewCard from '../Components/Restaurant/ReviewCard';
+import Mapview from '../Components/Restaurant/Mapview';
 
 function Overview() {
 
@@ -21,24 +22,28 @@ function Overview() {
     const [reviews , setReviews] =useState([
 
         {
+            image :"https://yt3.ggpht.com/yti/APfAmoFkhIt9OplVRZrX04_edNQNrfgIBWPz4ZSahnvnpwA=s88-c-k-c0x00ffffff-no-rj-mo",
             userName: "Pavan",
             isRestaurantReview: true,
             createdAt: "2020-06-01T12:00:00.000Z",
             reviewText: "This place is a must visit.",
           },
           {
-            userName: "Sai",
+            image :"https://lh3.googleusercontent.com/-ytkr_BH-YRk/XuNVWi4M3yI/AAAAAAAAAAA/FFn8ToAV7voexNxutLroA5Pfujlc8JhAgCOQCEAE/s340-p-k-rw-no/photo.jpg",
+            userName: "Deepak",
             isRestaurantReview: true,
             createdAt: "2020-06-01T12:00:00.000Z",
             reviewText: "This place is a must visit.",
           },
           {
+            image :"https://lh3.googleusercontent.com/-NelZwZNpjUk/XuNYBIjzoNI/AAAAAAAAAAA/DeLVl6r1LZYceQpbptFQdiQZ56mghea2wCOQCEAE/s340-p-k-rw-no/photo.jpg",
             userName: "Likki",
             isRestaurantReview: false,
             createdAt: "2020-06-01T12:00:00.000Z",
             reviewText: "This place is a must visit.",
           },
           {
+            image :"https://lh3.googleusercontent.com/-Xs3FN7fJOu4/XuNV9t2dOQI/AAAAAAAAAAA/sbqCqrdkncgxkohwReB56-6Hhx5DoM9QQCOQCEAE/s340-p-k-rw-no/photo.jpg",
             userName: "Teja",
             isRestaurantReview: false,
             createdAt: "2020-06-01T12:00:00.000Z",
@@ -159,6 +164,9 @@ function Overview() {
                         </div>
 
                     </div>
+                    <div className="my-4 w-full md:hidden flex flex-col gap-4 ">
+                         <Mapview title="Pavan's house" phno="+91 9989525957" mapLocation={[17.285499, 82.110628]} address="Yeleswaram, Andhra Pradesh 533429"  />
+                    </div>
                     <div className="mb-4 mt-8">
                         <h4 className="text-lg font-medium"> Rate Your Delivery Experience</h4>
                         <ReactStars count={5} 
@@ -171,12 +179,15 @@ function Overview() {
                         ))}
 
                     </div>
-                    <div className="my-4 w-full md:hidden flex flex-col gap-4 ">
-                        ...Map Stuff
-                    </div>
+                   
                 </div>
-                <aside style={{height:"fit-content"}} className="hidden md:flex md:w-4/12 sticky rounded-xl top-2 bg-white p-3 shadow-md flex-col gap-4 ">
-                    ....Map Stuff
+                <aside style={{height:"fit-content"}} className="hidden md:flex md:w-4/12 sticky rounded-xl top-2 bg-white p-5 shadow-md flex-col gap-4 ">
+                    
+                    <Mapview 
+                        title="Pavan's house" 
+                        phno="+91 9989525957" 
+                        mapLocation={[17.285499, 82.110628]} 
+                        address="Yeleswaram, Andhra Pradesh 533429" />
                 </aside>
 
             </div>
