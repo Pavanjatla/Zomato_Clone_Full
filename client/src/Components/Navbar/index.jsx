@@ -4,8 +4,10 @@ import {HiLocationMarker} from "react-icons/hi";
 import {IoMdArrowDropdown, IoMdArrowDropup} from "react-icons/io";
 import {RiSearch2Line} from "react-icons/ri";
 import { useState } from 'react';
+import SignIn from '../Auth/SignIn';
+import SignUp from '../Auth/SignUp';
 
-function MobileNav({user,isDropdownOpen ,setIsDropdownOpen}){
+function MobileNav({user,isDropdownOpen ,setIsDropdownOpen, SignIn, SignUp}){
     return(<>
 
         <div className="flex w-full items-center justify-between lg:hidden">
@@ -40,8 +42,8 @@ function MobileNav({user,isDropdownOpen ,setIsDropdownOpen}){
               </span>
               {isDropdownOpen && (
                 <div className="absolute shadow-lg py-3  -bottom-20 -right-4 w-full bg-white flex flex-col gap-2">
-                  <button>Sign In</button>
-                  <button>Sign Out</button>
+                  <button onClick={SignIn}>Sign In</button>
+                  <button onClick={SignUp}>Sign Out</button>
                 </div>
               )}
             </>
@@ -53,7 +55,7 @@ function MobileNav({user,isDropdownOpen ,setIsDropdownOpen}){
     </>);
 }
 
-function LargeNav({user,isDropdownOpen ,setIsDropdownOpen}){
+function LargeNav({user,isDropdownOpen ,setIsDropdownOpen, SignIn, SignUp}){
     return(<>
 
         <div className="hidden lg:inline container px-20 mx-auto ">
@@ -89,10 +91,10 @@ function LargeNav({user,isDropdownOpen ,setIsDropdownOpen}){
                     </div>
                 ):(
                     <div className="ml-28 flex gap-6">
-                        <button className="text-gray-500 text-xl hover:text-gray-800">
+                        <button className="text-gray-500 text-xl hover:text-gray-800" onClick={SignIn}>
                             Login
                         </button>
-                        <button className="text-gray-500 text-xl hover:text-gray-800">
+                        <button onClick={SignUp} className="text-gray-500 text-xl hover:text-gray-800">
                             Signup
                          </button>
 
@@ -108,17 +110,29 @@ function LargeNav({user,isDropdownOpen ,setIsDropdownOpen}){
 
 function Navbar() {
 
-    const [user, setUser] =useState({
-        name:"",
-    });
+    const [user, setUser] =useState(null);
     const [isDropdownOpen , setIsDropdownOpen] =useState(false);
+    const [openSignup, setOpenSignup] = useState(false);
+    const [openSignin, setOpenSignin] = useState(false);
 
+    const openSignInModal =()=>{
+        setOpenSignin(true);
+    };
+
+    const openSignUpModal =()=>{
+        setOpenSignup(true);
+    };
+ 
     return (
        <>
+
+            <SignIn isOpen={openSignin} setIsOpen={setOpenSignin} />
+            <SignUp isOpen={openSignup} setIsOpen={setOpenSignup} />
+
             <nav className="p-4 flex bg-white shadow-md lg:shadow-none w-full items-center">
 
-                <MobileNav user={user} isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen}/>
-                <LargeNav user={user} isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} />
+                <MobileNav user={user} isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} SignIn={openSignInModal} SignUp={openSignUpModal}/>
+                <LargeNav user={user} isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} SignIn={openSignInModal} SignUp={openSignUpModal}  />
 
             </nav>
        

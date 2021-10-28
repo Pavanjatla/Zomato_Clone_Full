@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {Link, useParams} from "react-router-dom";
 import Slider from 'react-slick';
 import {IoMdArrowDropright} from "react-icons/io";
@@ -9,55 +9,49 @@ import MenuSimilarRestaurantCard from '../Components/Restaurant/MenuSimilarResta
 import ReviewCard from '../Components/Restaurant/ReviewCard';
 import Mapview from '../Components/Restaurant/Mapview';
 
+//redux
+
+import {useSelector,useDispatch} from "react-redux";
+import {getImage} from "../Redux/Reducer/Image/Image.action";
+import {getReviews} from "../Redux/Reducer/reviews/reviews.action";
+
 function Overview() {
 
     const {id} =useParams();
-
-    const [menuImages, setMenuImages] = useState([
+    const dispatch = useDispatch();
+    const [menuImage, setMenuImages] = useState([
 
         "https://b.zmtcdn.com/data/menus/593/18233593/5b969d0a3ba13ae80c0df1e0d7447b02.jpg",
         "https://b.zmtcdn.com/data/menus/593/18233593/a181458955e1390aa366c636c2d3f0d5.jpg",
     ]);
 
-    const [reviews , setReviews] =useState([
-
-        {
-            image :"https://yt3.ggpht.com/yti/APfAmoFkhIt9OplVRZrX04_edNQNrfgIBWPz4ZSahnvnpwA=s88-c-k-c0x00ffffff-no-rj-mo",
-            userName: "Pavan",
-            isRestaurantReview: true,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-          {
-            image :"https://lh3.googleusercontent.com/-ytkr_BH-YRk/XuNVWi4M3yI/AAAAAAAAAAA/FFn8ToAV7voexNxutLroA5Pfujlc8JhAgCOQCEAE/s340-p-k-rw-no/photo.jpg",
-            userName: "Deepak",
-            isRestaurantReview: true,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-          {
-            image :"https://lh3.googleusercontent.com/-NelZwZNpjUk/XuNYBIjzoNI/AAAAAAAAAAA/DeLVl6r1LZYceQpbptFQdiQZ56mghea2wCOQCEAE/s340-p-k-rw-no/photo.jpg",
-            userName: "Likki",
-            isRestaurantReview: false,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-          {
-            image :"https://lh3.googleusercontent.com/-Xs3FN7fJOu4/XuNV9t2dOQI/AAAAAAAAAAA/sbqCqrdkncgxkohwReB56-6Hhx5DoM9QQCOQCEAE/s340-p-k-rw-no/photo.jpg",
-            userName: "Teja",
-            isRestaurantReview: false,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-    ]);
+    const [reviews , setReviews] =useState([]);
  
-    const averageCost = 300;
 
-    const cuisines =["Indian", "Asian", "Italian", "Chineese"];
+    const reduxState =useSelector((globalStore) =>globalStore.restaurant.selectedRestaurant.restaurant);
+
+    useEffect(()=>{
+        if(reduxState){
+            dispatch(getImage(reduxState?.photos)).then((data)=>{
+                const images = [];
+                data.payload.image.images.map(({ location }) => images.push(location));
+                setMenuImages(images);
+            });
+            dispatch(getReviews(reduxState?._id)).then((data)=>{
+                setReviews(data.payload.reviews)
+            })
+            
+            }
+    },[reduxState]);
 
     const ratingChanged= (newRating)=> {
         console.log(newRating);
     }
+
+    const getLatLong = (mapAddress) => {
+        const data = mapAddress?.split(",").map((item) => parseFloat(item));
+        return console.log(data);
+      };
 
     const settings ={
         dots:true,
@@ -114,14 +108,14 @@ function Overview() {
                         </Link>
                     </div>
                     <div className="flex flex-wrap gap-3 my-4">
-                        <MenuCollection menuTitle="menu" pages="3" image={menuImages} />
+                        <MenuCollection menuTitle="menu" pages={menuImage.length} image={menuImage} />
 
                     </div>
                     <h4 className="text-lg font-medium my-4">
                         Cuisines
                     </h4>
                     <div className="flex flex-wrap gap-2 ">
-                        {cuisines.map((data)=>(
+                        {reduxState?.cuisine.map((data)=>(
                             <span className="border border-gray-600 text-gray-900 px-2 py-1 rounded-full ">
                                 {data}
                             </span>
@@ -130,7 +124,7 @@ function Overview() {
                     </div>
                     <div className="my-4">
                         <h4 className="text-lg font-medium">Average Cost </h4>
-                        <h6>${averageCost}for one order ( approx.)</h6>
+                        <h6>${reduxState?.averageCost} for one order ( approx.)</h6>
                         <small className="text-gray-500">
                         Exclusive of applicable taxes and service charges, if any
                         </small>
@@ -165,7 +159,7 @@ function Overview() {
 
                     </div>
                     <div className="my-4 w-full md:hidden flex flex-col gap-4 ">
-                         <Mapview title="Pavan's house" phno="+91 9989525957" mapLocation={[17.285499, 82.110628]} address="Yeleswaram, Andhra Pradesh 533429"  />
+                         <Mapview title={reduxState?.name} phno={reduxState?.contactNumber} mapLocation={getLatLong(reduxState?.mapLocation)} address={reduxState?.address}  />
                     </div>
                     <div className="mb-4 mt-8">
                         <h4 className="text-lg font-medium"> Rate Your Delivery Experience</h4>
@@ -184,10 +178,10 @@ function Overview() {
                 <aside style={{height:"fit-content"}} className="hidden md:flex md:w-4/12 sticky rounded-xl top-2 bg-white p-5 shadow-md flex-col gap-4 ">
                     
                     <Mapview 
-                        title="Pavan's house" 
-                        phno="+91 9989525957" 
-                        mapLocation={[17.285499, 82.110628]} 
-                        address="Yeleswaram, Andhra Pradesh 533429" />
+                       title={reduxState?.name} 
+                       phno={reduxState?.contactNumber} 
+                       mapLocation={getLatLong(reduxState?.mapLocation)} 
+                       address={reduxState?.address} />
                 </aside>
 
             </div>

@@ -1,41 +1,28 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import ReviewCard from '../Components/Restaurant/ReviewCard';
 import AddReviewCard from '../Components/Restaurant/Reviews/AddReviewCard';
+
+//redux
+import {useDispatch, useSelector} from "react-redux";
+import {getReviews} from "../Redux/Reducer/reviews/reviews.action";
 
 
 function Reviews() {
 
-    const [reviews , setReviews] =useState([
+    const [reviews , setReviews] =useState([]);
 
-        {
-            image :"https://yt3.ggpht.com/yti/APfAmoFkhIt9OplVRZrX04_edNQNrfgIBWPz4ZSahnvnpwA=s88-c-k-c0x00ffffff-no-rj-mo",
-            userName: "Pavan",
-            isRestaurantReview: true,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-          {
-            image :"https://lh3.googleusercontent.com/-ytkr_BH-YRk/XuNVWi4M3yI/AAAAAAAAAAA/FFn8ToAV7voexNxutLroA5Pfujlc8JhAgCOQCEAE/s340-p-k-rw-no/photo.jpg",
-            userName: "Deepak",
-            isRestaurantReview: true,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-          {
-            image :"https://lh3.googleusercontent.com/-NelZwZNpjUk/XuNYBIjzoNI/AAAAAAAAAAA/DeLVl6r1LZYceQpbptFQdiQZ56mghea2wCOQCEAE/s340-p-k-rw-no/photo.jpg",
-            userName: "Likki",
-            isRestaurantReview: false,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-          {
-            image :"https://lh3.googleusercontent.com/-Xs3FN7fJOu4/XuNV9t2dOQI/AAAAAAAAAAA/sbqCqrdkncgxkohwReB56-6Hhx5DoM9QQCOQCEAE/s340-p-k-rw-no/photo.jpg",
-            userName: "Teja",
-            isRestaurantReview: false,
-            createdAt: "2020-06-01T12:00:00.000Z",
-            reviewText: "This place is a must visit.",
-          },
-    ]);
+    const reduxState = useSelector(
+        (globalStore) => globalStore.restaurant.selectedRestaurant.restaurant
+      );
+    
+      const dispatch = useDispatch();
+    
+      useEffect(() => {
+        reduxState &&
+          dispatch(getReviews(reduxState?._id)).then((data) => {
+            setReviews(data.payload.reviews);
+          });
+      }, [reduxState]);
 
     return (
         <>

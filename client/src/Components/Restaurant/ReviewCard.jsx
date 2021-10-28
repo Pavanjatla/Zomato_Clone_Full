@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TiStarFullOutline } from "react-icons/ti";
 import dayjs from "dayjs";
 
+//redux
+import {useDispatch} from "react-redux";
+import {getUser} from "../../Redux/Reducer/User/user.action";
+
 function ReviewCard(props) {
+
+        const dispatch = useDispatch();
+        const [user, setUser] = useState("");
+        
+        useEffect(() =>{
+            dispatch(getUser(props.user)).then((data)=>{
+                setUser(data.payload.user.fullName);
+            });
+        },[]);
+
     return (
         <>
             <div className="my-3 flex flex-col gap-3">
@@ -10,13 +24,13 @@ function ReviewCard(props) {
                 <div className="flex items-center gap-2">
                 <div className="w-10 h-10 rounded-full">
                     <img
-                    src={props.image}
+                    src="https://yt3.ggpht.com/yti/APfAmoFkhIt9OplVRZrX04_edNQNrfgIBWPz4ZSahnvnpwA=s88-c-k-c0x00ffffff-no-rj-mo"
                     alt="avatar"
                     className="w-full h-full rounded-full object-center"
                     />
                 </div>
                 <div className="flex flex-col">
-                    <h3 className="text-lg font-semibold">{props.userName}</h3>
+                    <h3 className="text-lg font-semibold">{user}</h3>
                     <small className="text-gray-500">
                     5 Reviews &#8226; 3 Followers
                     </small>

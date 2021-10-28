@@ -1,26 +1,13 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import ImageViewer from "react-simple-image-viewer";
 import PhotoCollection from '../Components/Restaurant/PhotoCollection';
+//redux
+import {useSelector, useDispatch} from "react-redux";
+import { getImage } from '../Redux/Reducer/Image/Image.action';
 
 function Photos() {
 
-    const [photos, setPhotos] = useState([
-        "https://b.zmtcdn.com/data/pictures/4/18486844/98b6593ec29d152573eafbda918611ed.jpg",
-        "https://b.zmtcdn.com/data/pictures/chains/4/18486844/b9964186cf9b359df6c0f06b159da05d.jpg",
-        "https://b.zmtcdn.com/data/pictures/4/18486844/b00b836978d9cf47b642c9684268feef.jpg",
-        "https://b.zmtcdn.com/data/reviews_photos/da9/b9d25ffaf7cc8de581e19761d4b37da9_1526837237.jpeg",
-        "https://b.zmtcdn.com/data/reviews_photos/c6c/caca011940d0fcca555354ed52d02c6c_1526836761.jpeg",
-        "https://b.zmtcdn.com/data/pictures/4/18486844/98b6593ec29d152573eafbda918611ed.jpg",
-        "https://b.zmtcdn.com/data/pictures/chains/4/18486844/b9964186cf9b359df6c0f06b159da05d.jpg",
-        "https://b.zmtcdn.com/data/pictures/4/18486844/b00b836978d9cf47b642c9684268feef.jpg",
-        "https://b.zmtcdn.com/data/reviews_photos/da9/b9d25ffaf7cc8de581e19761d4b37da9_1526837237.jpeg",
-        "https://b.zmtcdn.com/data/reviews_photos/c6c/caca011940d0fcca555354ed52d02c6c_1526836761.jpeg",
-        "https://b.zmtcdn.com/data/pictures/4/18486844/98b6593ec29d152573eafbda918611ed.jpg",
-        "https://b.zmtcdn.com/data/pictures/chains/4/18486844/b9964186cf9b359df6c0f06b159da05d.jpg",
-        "https://b.zmtcdn.com/data/pictures/4/18486844/b00b836978d9cf47b642c9684268feef.jpg",
-        "https://b.zmtcdn.com/data/reviews_photos/da9/b9d25ffaf7cc8de581e19761d4b37da9_1526837237.jpeg",
-        "https://b.zmtcdn.com/data/reviews_photos/c6c/caca011940d0fcca555354ed52d02c6c_1526836761.jpeg",
-    ]);
+    const [photos, setPhotos] = useState([]);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [currentImg, setCurrentImg] = useState(0);
 
@@ -31,6 +18,24 @@ function Photos() {
     const openViewer=(index)=>{
         setIsMenuOpen(true)
     };
+
+    const dispatch = useDispatch();
+
+    const reduxState = useSelector(
+        (globalStore) => globalStore.restaurant.selectedRestaurant.restaurant
+      );
+
+    useEffect(() =>{
+        if (reduxState) {
+            dispatch(getImage(reduxState?.photos)).then((data) => {
+              const images = [];
+              data.payload.image.images.map(({ location }) => images.push(location));
+              setPhotos(images);
+            });
+        }
+
+    },[reduxState]);
+
   
 
     return (
@@ -51,6 +56,6 @@ function Photos() {
             
         </>
     )
-}
+};
 
-export default Photos
+export default Photos;

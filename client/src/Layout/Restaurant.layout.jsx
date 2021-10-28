@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react';
 import RestaurantNavbar from '../Components/Navbar/RestaurantNavbar';
 import ImageGrid from '../Components/Restaurant/ImageGrid';
 import RestaurantInfo from '../Components/Restaurant/RestaurantInfo';
@@ -7,26 +7,45 @@ import { TiStarOutline } from 'react-icons/ti';
 import { RiDirectionLine, RiShareForwardLine } from 'react-icons/ri';
 import {BiBookmarkPlus} from "react-icons/bi";
 import Tabs from '../Components/Restaurant/Tabs';
+import CartContainer from '../Components/Cart/CartContainer';
+import { useParams } from 'react-router-dom';
+import {useDispatch} from "react-redux";
 
+//redux
+import {getSpecificRestaurant} from "../Redux/Reducer/restaurant/restaurant.action";
+import {getImage} from "../Redux/Reducer/Image/Image.action";
 
 
 function RestaurantLayout({children}) {
 
-    const [restaurant , setRestaurant] = useState({
-        images: [
-            "https://b.zmtcdn.com/data/pictures/4/19661324/87a5c17c03666f6adc7fe5f0378c4095.jpg",
-            "https://b.zmtcdn.com/data/pictures/chains/4/19661324/9afa14e3bfb56780332464e457019b5b.jpg",
-            "https://b.zmtcdn.com/data/reviews_photos/c22/ce297cb16332fa4974941227c44eac22_1618340672.jpg",
-            "https://b.zmtcdn.com/data/pictures/4/19661324/75bbd18943ab1119c2848186c62a5d1d.jpg",
-            "https://b.zmtcdn.com/data/dish_photos/710/22f2975bde4cefb6c34fcb9d66f42710.jpg",
-          ],
+    const {id} = useParams();
+    const dispatch =useDispatch();
 
-          name: "The Indo-Asian Kitchen",
-          cuisine: "North Indian, Chinese, Kebab, Mughlai",
-          address: "Karol Bagh, New Delhi",
-          restaurantRating: 4.3,
-          deliveryRating: 3.5,
+    const [restaurant , setRestaurant] = useState({
+        images: [],
+        name: "",
+        cuisine: "",
+        address: "",
         });
+
+        useEffect(() =>{
+            dispatch(getSpecificRestaurant(id)).then((data) =>{
+                setRestaurant((prev) =>({
+                    ...prev,
+                    ...data.payload.restaurant,
+                }));
+                console.log(data)
+                dispatch(getImage(data.payload.restaurant.photos)).then((data) => {
+                    setRestaurant((prev) => ({
+                      ...prev,
+                      ...data.payload.image, 
+                    }));
+                  });
+            });
+
+        },[]);
+
+
 
     return (
        <>
@@ -65,6 +84,7 @@ function RestaurantLayout({children}) {
                 {children}
 
        </div>
+       <CartContainer />
        
       
         

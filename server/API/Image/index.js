@@ -23,6 +23,24 @@ Acess              public
 method             get
 */
 
+Router.get("/:_id", async (req, res) => {
+    try {
+      const image = await ImageModel.findById(req.params._id);
+  
+      return res.json({ image });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  });
+
+  /*
+Route           /image
+Des             Uploads given image to S3 bucket, and saves file link to mongodb
+Params          none
+Access          Public
+Method          POST
+*/
+
 Router.post("/", upload.single ("file"), async(req,res) =>{
     try {
 

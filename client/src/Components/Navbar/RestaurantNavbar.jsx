@@ -6,7 +6,17 @@ import {RiSearch2Line} from "react-icons/ri";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { useState } from 'react';
 
-function MobileNav({user,isDropdownOpen ,setIsDropdownOpen}){
+// components
+import Signup from "../Auth/SignUp";
+import Signin from "../Auth/SignIn";
+
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { signOut} from "../../Redux/Reducer/Auth/auth.action";
+
+function MobileNav({user,isDropdownOpen ,setIsDropdownOpen,SignIn,SignUp}){
+
+    const reduxState =useSelector((globalStore) =>globalStore.user.user);
     return(<>
 
         <div className="flex w-full items-center justify-between lg:hidden">
@@ -17,7 +27,7 @@ function MobileNav({user,isDropdownOpen ,setIsDropdownOpen}){
             </div>
             <div className="flex items-center gap-3 relative">
                 <button className="bg-zomato-400 text-white py-2 px-3 rounded-full"> Use App</button>
-                {user ? (
+                {reduxState ?.user?.fullName ?(
             <>
               <div
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -42,8 +52,8 @@ function MobileNav({user,isDropdownOpen ,setIsDropdownOpen}){
               </span>
               {isDropdownOpen && (
                 <div className="absolute shadow-lg py-3  -bottom-20 -right-4 w-full bg-white flex flex-col gap-2">
-                  <button>Sign In</button>
-                  <button>Sign Out</button>
+                  <button onClick={SignIn}>Sign In</button>
+                  <button onClick={SignUp}>Sign Up</button>
                 </div>
               )}
             </>
@@ -55,7 +65,9 @@ function MobileNav({user,isDropdownOpen ,setIsDropdownOpen}){
     </>);
 }
 
-function LargeNav({user,isDropdownOpen ,setIsDropdownOpen}){
+function LargeNav({user,isDropdownOpen ,setIsDropdownOpen,SignIn,SignUp}){
+    const reduxState =useSelector((globalStore) =>globalStore.user.user);
+
     return(<>
 
         <div className="hidden lg:inline container px-20 mx-auto ">
@@ -77,7 +89,7 @@ function LargeNav({user,isDropdownOpen ,setIsDropdownOpen}){
                     </div>
                 </div>
 
-                {user ? (
+                {reduxState ?.user?.fullName ? (
                     <div className="relative w-20">
                         <div onClick={()=>setIsDropdownOpen((prev)=>!prev)} className="border p-2 border-gray-300 text-zomato-400 w-full h-20 rounded  border-none">
                             <img src="https://cdn2.vectorstock.com/i/1000x1000/38/31/male-face-avatar-logo-template-pictograph-vector-11333831.jpg" alt="avatar" className="w-full h-full rounded-full object-cover" />
@@ -91,10 +103,10 @@ function LargeNav({user,isDropdownOpen ,setIsDropdownOpen}){
                     </div>
                 ):(
                     <div className="ml-28 flex gap-6">
-                        <button className="text-gray-500 text-xl hover:text-gray-800">
+                        <button onClick={SignIn} className="text-gray-500 text-xl hover:text-gray-800">
                             Login
                         </button>
-                        <button className="text-gray-500 text-xl hover:text-gray-800">
+                        <button onClick={SignUp} className="text-gray-500 text-xl hover:text-gray-800">
                             Signup
                          </button>
 
@@ -110,17 +122,32 @@ function LargeNav({user,isDropdownOpen ,setIsDropdownOpen}){
 
 function RestaurantNavbar() {
 
-    const [user, setUser] =useState({
-        name:"",
-    });
+    const [openSignup, setOpenSignup] = useState(false);
+    const [openSignin, setOpenSignin] = useState(false);
+
+    const openSignInModal = () => setOpenSignin(true);
+    const openSignUpModal = () => setOpenSignup(true);
     const [isDropdownOpen , setIsDropdownOpen] =useState(false);
+
+
 
     return (
        <>
+            <Signin isOpen={openSignin} setIsOpen={setOpenSignin} />
+            <Signup isOpen={openSignup} setIsOpen={setOpenSignup} />
             <nav className="p-4 flex bg-white shadow-md lg:shadow-none w-full items-center">
 
-                <MobileNav user={user} isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen}/>
-                <LargeNav user={user} isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} />
+                <MobileNav  
+                    isDropdownOpen={isDropdownOpen} 
+                    setIsDropdownOpen={setIsDropdownOpen} 
+                    SignIn={openSignInModal}
+                    SignUp={openSignUpModal}/>
+                    
+                <LargeNav 
+                    isDropdownOpen={isDropdownOpen} 
+                    setIsDropdownOpen={setIsDropdownOpen} 
+                    SignIn={openSignInModal}
+                    SignUp={openSignUpModal} />
 
             </nav>
        

@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Link } from "react-router-dom";
 import { AiTwotoneStar } from "react-icons/ai";
 
+//redux
+import { useDispatch } from "react-redux";
+import { getImage } from "../Redux/Reducer/Image/Image.action";
+
 function RestaurantCard(props) {
+  const [image, setImage] = useState({
+    images : [],
+  });
+  
   const [isPro] = useState(true);
   const [isOff] = useState(true);
+  const dispatch =useDispatch();
+
+  useEffect(() =>{
+    props.photos && dispatch(getImage(props.photos)).then((data) => setImage(data.payload.image)
+    
+    );
+  },[props.photos]);
 
   return (
-    <Link to={`/restaurant/123`} className="w-full md:w-1/2 lg:w-1/3">
+    <Link to={`/restaurant/${props._id}`} className="w-full md:w-1/2 lg:w-1/3">
       <div className="bg-white p-4 mb-4 rounded-2xl transition duration-700 ease-in-out hover:shadow-lg ">
         <div className="w-full h-56 lg:h-64 relative">
           <div className="absolute w-full bottom-4 flex items-end justify-between">
@@ -29,14 +44,14 @@ function RestaurantCard(props) {
             </span>
           </div>
           <img
-            src="https://b.zmtcdn.com/data/pictures/chains/4/19661324/959304c2344b505fcbb87fbc3496644d_o2_featured_v2.jpg"
+            src={image.images.length && image.images[0].location}
             alt="food"
             className="w-full h-full rounded-2xl object-center object-cover"
           />
         </div>
         <div className="my-2 flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-xl font-medium">The Indo-Asian Kitchen</h4>
+            <h4 className="text-xl font-medium">{props.name}</h4>
             <span className="bg-green-800 text-white text-sm p-1 rounded flex items-center">
               {props.restaurantReviewValue} <AiTwotoneStar />
             </span>
