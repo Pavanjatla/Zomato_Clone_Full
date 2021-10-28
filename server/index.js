@@ -53,7 +53,7 @@ zomato.use("/order",Order);
 zomato.use("/review",Review);
 zomato.use("/user",User);
 
-zomato.listen(4000, () => 
+zomato.listen(5000, () => 
     ConnectDB()
     .then(()=>console.log("server is running"))
     .catch(()=>

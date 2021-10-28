@@ -10,7 +10,7 @@ export const signIn = (userData) => async (dispatch) => {
     try {
         const User = await axios({
             method:"POST",
-            url: "http://localhost:4000/auth/signin",
+            url: "http://localhost:5000/auth/signin",
             data : {credentials : userData}
         });
         getMySelf();
@@ -32,7 +32,7 @@ export const signUp = (userData) => async (dispatch) => {
     try {
       const User = await axios({
         method: "POST",
-        url: "http://localhost:4000/auth/signup",
+        url: "http://localhost:5000/auth/signup",
         data: { credentials: userData },
       });
   
@@ -46,6 +46,18 @@ export const signUp = (userData) => async (dispatch) => {
       return dispatch({ type: SIGN_UP, payload: User.data });
     } catch (error) {
       dispatch({ type: "ERROR", payload: error });
+    }
+  };
+
+  export const googleAuth = (token) => async (dispatch) => {
+    try {
+      localStorage.setItem("zomatoUser", JSON.stringify({ token }));
+      
+      dispatch({ type: GOOGLE_AUTH, payload: {} });
+  
+      getMySelf();
+    } catch (error) {
+      return dispatch({ type: "ERROR", payload: error });
     }
   };
 
