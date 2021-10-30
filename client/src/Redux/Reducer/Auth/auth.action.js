@@ -36,7 +36,7 @@ export const signUp = (userData) => async (dispatch) => {
         data: { credentials: userData },
       });
   
-      //window.location.href = "http://localhost:3000/delivery";
+      window.location.href = "http://localhost:3000/delivery";
   
       localStorage.setItem(
         "zomatoUser",
@@ -55,7 +55,7 @@ export const signUp = (userData) => async (dispatch) => {
       
       dispatch({ type: GOOGLE_AUTH, payload: {} });
   
-      getMySelf();
+      window.location.href = "http://localhost:3000/delivery";
     } catch (error) {
       return dispatch({ type: "ERROR", payload: error });
     }
