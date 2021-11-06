@@ -19,6 +19,7 @@ import Image from "./API/Image/index";
 import Order from "./API/Orders/index";
 import User from "./API/User/index";
 import Review from "./API/Reviews/index";
+import Payments from "./API/Payments/index"
 
 
 // database connection
@@ -52,6 +53,7 @@ zomato.use("/image",Image);
 zomato.use("/order",Order);
 zomato.use("/review",Review);
 zomato.use("/user",User);
+zomato.use("/payments",Payments);
 
 zomato.listen(5000, () => 
     ConnectDB()

@@ -14,12 +14,21 @@ import {useDispatch} from "react-redux";
 //redux
 import {getSpecificRestaurant} from "../Redux/Reducer/restaurant/restaurant.action";
 import {getImage} from "../Redux/Reducer/Image/Image.action";
+//redux
+import { getCart } from '../Redux/Reducer/Cart/cart.action';
+
 
 
 function RestaurantLayout({children}) {
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCart());
+        
+    }, []);
+
     const {id} = useParams();
-    const dispatch =useDispatch();
 
     const [restaurant , setRestaurant] = useState({
         images: [],
